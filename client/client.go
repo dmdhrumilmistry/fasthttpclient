@@ -1,7 +1,6 @@
 package client
 
 import (
-	"errors"
 	"time"
 
 	"github.com/dmdhrumilmistry/fasthttpclient/config"
@@ -22,13 +21,12 @@ var client = &fasthttp.Client{
 
 func Get(uri string, queryParams any, headers any) (*Response, error) {
 	// generate request uri
-	queryParamsMap, ok := queryParams.(map[string]string)
-	if !ok && queryParams != nil {
-		return nil, errors.New("queryParams must be a map[string]string")
-	} else {
-		uri = GenerateURI(uri, queryParamsMap)
+	uri, err := SetQueryParamsInURI(queryParams, uri)
+	if err != nil {
+		return nil, err
 	}
 
+	// acquire resources for request
 	req := fasthttp.AcquireRequest()
 
 	// configure uri and method
@@ -36,18 +34,18 @@ func Get(uri string, queryParams any, headers any) (*Response, error) {
 	req.Header.SetMethod(fasthttp.MethodGet)
 
 	// set headers
-	headersMap, ok := headers.(map[string]string)
-	if !ok && headers != nil {
-		return nil, errors.New("headers must be a map[string]string")
-	} else {
-		SetHeaders(req, headersMap)
+	if err := SetHeadersInRequest(headers, req); err != nil {
+		return nil, err
 	}
 
+	// acquire response
 	resp := fasthttp.AcquireResponse()
-	err := client.Do(req, resp)
+	err = client.Do(req, resp)
 	if err != nil {
 		return nil, err
 	}
+
+	// release request resources
 	fasthttp.ReleaseRequest(req)
 
 	// release response after using it
@@ -55,6 +53,7 @@ func Get(uri string, queryParams any, headers any) (*Response, error) {
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 
+	// release response body resources
 	fasthttp.ReleaseResponse(resp)
 
 	return NewResponse(statusCode, respHeaders, body), nil
