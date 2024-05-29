@@ -56,3 +56,19 @@ func SetHeadersInRequest(headers interface{}, req *fasthttp.Request) error {
 
 	return nil
 }
+
+// sets body if present and returns nil as error.
+// Function will also return nil if body == nil
+func SetRequestBody(body interface{}, req *fasthttp.Request) error {
+	if body == nil {
+		return nil
+	}
+
+	bodyBytes, ok := body.([]byte)
+	if !ok {
+		return errors.New("body only supports []byte type")
+	} else {
+		req.SetBody(bodyBytes)
+	}
+	return nil
+}
