@@ -6,7 +6,7 @@ import (
 	"github.com/dmdhrumilmistry/fasthttpclient/client"
 )
 
-func TestGet(t *testing.T) {
+func Get(testClient client.ClientInterface, t *testing.T) {
 	headers := map[string]string{
 		"User-Agent": "fasthttpclient",
 		"Accept":     "application/json",
@@ -17,7 +17,7 @@ func TestGet(t *testing.T) {
 	}
 
 	// testing function without providing query params and headers
-	resp, err := client.Get("https://ipinfo.io", queryParams, headers)
+	resp, err := client.Get(testClient, "https://ipinfo.io", queryParams, headers)
 
 	if err != nil {
 		t.Error(err)
