@@ -1,8 +1,8 @@
 build:
-	@go build -o bin/fhc cmd/main.go
+	@go build -o bin/fhc cmd/fhc/main.go
 
 run:
-	@go run cmd/main.go
+	@go run cmd/fhc/main.go
 
 test:
 	@go test -v ./...
