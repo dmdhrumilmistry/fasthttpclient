@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/li-jin-gou/http2curl"
 	"github.com/valyala/fasthttp"
 )
 
@@ -28,6 +29,13 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 		return nil, err
 	}
 
+	// get curl command
+	curlCmd := "error generating curl command"
+	curlCmdObj, err := http2curl.GetCurlCommandFastHttp(req)
+	if err == nil {
+		curlCmd = curlCmdObj.String()
+	}
+
 	// acquire response
 	resp := fasthttp.AcquireResponse()
 	err = c.Client.Do(req, resp)
@@ -44,5 +52,5 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 
-	return NewResponse(statusCode, respHeaders, body), nil
+	return NewResponse(statusCode, respHeaders, body, curlCmd), nil
 }

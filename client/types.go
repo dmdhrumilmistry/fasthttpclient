@@ -47,16 +47,18 @@ func NewRateLimitedClient(requests int, perSeconds int) *RateLimitedClient {
 }
 
 type Response struct {
-	StatusCode int
-	Headers    map[string]string
-	Body       []byte
+	StatusCode  int
+	Headers     map[string]string
+	Body        []byte
+	CurlCommand string
 }
 
-func NewResponse(statusCode int, headers map[string]string, body []byte) *Response {
+func NewResponse(statusCode int, headers map[string]string, body []byte, curlCmd string) *Response {
 	return &Response{
-		StatusCode: statusCode,
-		Headers:    headers,
-		Body:       body,
+		StatusCode:  statusCode,
+		Headers:     headers,
+		Body:        body,
+		CurlCommand: curlCmd,
 	}
 }
 
