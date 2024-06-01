@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+	// clients
+	fastHttpClient := client.NewFHClient()
+	// fastHttpClient := client.NewRateLimitedClient(10, 1)
+
 	headers := map[string]string{
 		"User-Agent":   "fasthttpclient",
 		"Accept":       "application/json",
@@ -28,12 +32,12 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// resp, err := client.Get("https://ipinfo.io", queryParams, headers)
+	// resp, err := client.Get(fastHttpClient,"https://ipinfo.io", queryParams, headers)
 	// if err != nil {
 	// 	log.Fatalln(err)
 	// }
 
-	resp, err := client.Post("http://localhost:8002/api/v1/forms/unqualified", queryParams, headers, body)
+	resp, err := client.Post(fastHttpClient, "http://localhost:8002/api/v1/forms/unqualified", queryParams, headers, body)
 	if err != nil {
 		log.Fatalln(err)
 	}
