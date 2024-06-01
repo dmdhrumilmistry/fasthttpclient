@@ -2,7 +2,8 @@ name: Test GoLang Project
 on:
   push:
     branches:
-      - '*'
+      - main
+      - dev
   pull_request:
     branches:
       - '*'
@@ -15,17 +16,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.22.x'
-      - name: Install dependencies
+
+      - name: Install Dependencies
         run: go mod download
-      - name: Build
+
+      - name: Build Project
         run: make build
+
       - name: Test with the Go CLI
         run: make test
