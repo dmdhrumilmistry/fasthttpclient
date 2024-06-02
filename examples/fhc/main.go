@@ -4,11 +4,12 @@ import (
 	"log"
 
 	"github.com/dmdhrumilmistry/fasthttpclient/client"
+	"github.com/valyala/fasthttp"
 )
 
 func main() {
 	// Create a new RateLimitedClient with 100 requests per second
-	rlclient := client.NewRateLimitedClient(100, 1)
+	rlclient := client.NewRateLimitedClient(100, 1, &fasthttp.Client{})
 
 	queryParams := map[string]string{
 		"queryParam1": "value1",

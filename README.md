@@ -20,24 +20,6 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
     go get github.com/dmdhrumilmistry/fasthttpclient
     ```
 
-- configure timeouts in `.env` file
-
-    ```txt
-    FHC_READ_TIMEOUT=5s
-    FHC_WRITE_TIMEOUT=5s
-    FHC_MAX_IDLE_CONN=60s
-    ```
-
-    **OR**
-
-    by exporting env variables
-
-    ```bash
-    export FHC_READ_TIMEOUT=5s
-    export FHC_WRITE_TIMEOUT=5s
-    export FHC_MAX_IDLE_CONN=60s
-    ```
-
 - Without Rate Limit
 
     ```go
@@ -47,11 +29,12 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
         "log"
 
         "github.com/dmdhrumilmistry/fasthttpclient/client"
+        "github.com/valyala/fasthttp"
     )
 
     func main() {
         // Create a new FHClient without any rate limit
-        fhc := client.NewFHClient()
+        fhc := client.NewFHClient(&fasthttp.Client{})
 
         queryParams := map[string]string{
             "queryParam1": "value1",
@@ -80,11 +63,12 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
         "log"
 
         "github.com/dmdhrumilmistry/fasthttpclient/client"
+        "github.com/valyala/fasthttp"
     )
 
     func main() {
         // Create a new RateLimitedClient with 100 requests per second
-        rlclient := client.NewRateLimitedClient(100, 1)
+        rlclient := client.NewRateLimitedClient(100, 1, &fasthttp.Client{})
 
         queryParams := map[string]string{
             "queryParam1": "value1",
@@ -97,7 +81,6 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
 
         body := []byte(`{"key": "value"}`)
 
-        // use fhc to make a GET request
         resp, err := client.Post(rlclient, "https://example.com", queryParams, headers, body)
         if err != nil {
             log.Fatalln(err)
@@ -109,3 +92,5 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
         log.Println(resp.CurlCommand)
     }
     ```
+
+- View all [examples](./examples/)

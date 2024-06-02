@@ -4,9 +4,10 @@ import (
 	"testing"
 
 	"github.com/dmdhrumilmistry/fasthttpclient/client"
+	"github.com/valyala/fasthttp"
 )
 
-var fhclient = client.NewFHClient()
+var fhclient = client.NewFHClient(&fasthttp.Client{})
 
 func TestFHCGet(t *testing.T) {
 	Get(fhclient, t)

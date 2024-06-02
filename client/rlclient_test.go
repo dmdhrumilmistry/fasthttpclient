@@ -4,9 +4,10 @@ import (
 	"testing"
 
 	"github.com/dmdhrumilmistry/fasthttpclient/client"
+	"github.com/valyala/fasthttp"
 )
 
-var rlclient = client.NewRateLimitedClient(100, 1)
+var rlclient = client.NewRateLimitedClient(100, 1, &fasthttp.Client{})
 
 func TestRLCGet(t *testing.T) {
 	Get(rlclient, t)
