@@ -1,6 +1,8 @@
 package client
 
 import (
+	"time"
+
 	"github.com/li-jin-gou/http2curl"
 	"github.com/valyala/fasthttp"
 )
@@ -36,21 +38,27 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 		curlCmd = curlCmdObj.String()
 	}
 
+	// start timer
+	now := time.Now()
+
 	// acquire response
 	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
 	err = c.Client.Do(req, resp)
 	if err != nil {
 		return nil, err
 	}
 
+	// stop timer
+	elapsed := time.Since(now)
+
 	// release resources after use
 	fasthttp.ReleaseRequest(req)
-	defer fasthttp.ReleaseResponse(resp)
 
 	// release response after using it
 	body := resp.Body()
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 
-	return NewResponse(statusCode, respHeaders, body, curlCmd), nil
+	return NewResponse(statusCode, respHeaders, body, curlCmd, elapsed), nil
 }

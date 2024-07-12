@@ -38,14 +38,16 @@ type Response struct {
 	Headers     map[string]string
 	Body        []byte
 	CurlCommand string
+	TimeElapsed time.Duration
 }
 
-func NewResponse(statusCode int, headers map[string]string, body []byte, curlCmd string) *Response {
+func NewResponse(statusCode int, headers map[string]string, body []byte, curlCmd string, duration time.Duration) *Response {
 	return &Response{
 		StatusCode:  statusCode,
 		Headers:     headers,
 		Body:        body,
 		CurlCommand: curlCmd,
+		TimeElapsed: duration,
 	}
 }
 
