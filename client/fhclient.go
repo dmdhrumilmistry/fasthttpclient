@@ -1,11 +1,16 @@
 package client
 
 import (
+	"time"
+
 	"github.com/li-jin-gou/http2curl"
 	"github.com/valyala/fasthttp"
 )
 
 func (c *FHClient) Do(uri string, method string, queryParams any, headers any, reqBody any) (*Response, error) {
+	// start timer
+	now := time.Now()
+
 	// generate request uri
 	uri, err := SetQueryParamsInURI(queryParams, uri)
 	if err != nil {
@@ -52,5 +57,7 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 
-	return NewResponse(statusCode, respHeaders, body, curlCmd), nil
+	// stop timer
+	elapsed := time.Since(now)
+	return NewResponse(statusCode, respHeaders, body, curlCmd, elapsed), nil
 }
