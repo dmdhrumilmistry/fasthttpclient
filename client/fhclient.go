@@ -8,9 +8,6 @@ import (
 )
 
 func (c *FHClient) Do(uri string, method string, queryParams any, headers any, reqBody any) (*Response, error) {
-	// start timer
-	now := time.Now()
-
 	// generate request uri
 	uri, err := SetQueryParamsInURI(queryParams, uri)
 	if err != nil {
@@ -41,23 +38,27 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 		curlCmd = curlCmdObj.String()
 	}
 
+	// start timer
+	now := time.Now()
+
 	// acquire response
 	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
 	err = c.Client.Do(req, resp)
 	if err != nil {
 		return nil, err
 	}
 
+	// stop timer
+	elapsed := time.Since(now)
+
 	// release resources after use
 	fasthttp.ReleaseRequest(req)
-	defer fasthttp.ReleaseResponse(resp)
 
 	// release response after using it
 	body := resp.Body()
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 
-	// stop timer
-	elapsed := time.Since(now)
 	return NewResponse(statusCode, respHeaders, body, curlCmd, elapsed), nil
 }

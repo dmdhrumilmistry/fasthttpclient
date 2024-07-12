@@ -28,8 +28,9 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	log.Println(string(resp.Body))
 	log.Println(resp.StatusCode)
 	log.Println(resp.Headers)
-	log.Println(string(resp.Body))
 	log.Println(resp.CurlCommand)
+	log.Println(resp.TimeElapsed)
 }
