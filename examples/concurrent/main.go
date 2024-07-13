@@ -41,11 +41,12 @@ func main() {
 	responses := client.MakeConcurrentRequests(requests, fhc)
 
 	// print responses
-	for i, resp := range responses {
-		log.Printf("Request %d Response:\n", i+1)
-		if resp.Error != nil {
-			log.Fatalln(resp.Error)
-		}
-		log.Println(resp.Response.StatusCode)
-	}
+	// for i, resp := range responses {
+	// 	log.Printf("Request %d Response:\n", i+1)
+	// 	if resp.Error != nil {
+	// 		log.Fatalln(resp.Error)
+	// 	}
+	// 	log.Println(resp.Response.StatusCode)
+	// }
+	log.Printf("\n%d Requests Completed\n", len(responses))
 }
