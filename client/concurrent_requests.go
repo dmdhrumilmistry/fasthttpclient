@@ -43,7 +43,7 @@ func MakeConcurrentRequests(requests []*Request, client ClientInterface) []*Conc
 		go func(request *Request) {
 			defer wg.Done()
 			resp, err := client.Do(request.Uri, request.Method, request.QueryParams, request.Headers, request.Body)
-			responsesCh <- NewConcurrentResponse(resp, err)
+			responsesCh <- NewConcurrentResponse(resp, request, err)
 			bar.Add(1)
 		}(request)
 	}
