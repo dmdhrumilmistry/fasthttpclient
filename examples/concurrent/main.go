@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"time"
 
@@ -31,7 +32,7 @@ func main() {
 		"User-Agent": "fasthttpclient",
 	}
 
-	reqCount := 100
+	reqCount := 5
 	// create requests
 	for i := 0; i < reqCount; i++ {
 		requests = append(requests, client.NewRequest("https://example.com", fasthttp.MethodGet, queryParams, headers, nil))
@@ -40,4 +41,10 @@ func main() {
 	// make concurrent requests
 	responses := client.MakeConcurrentRequests(requests, fhc)
 	log.Printf("\n%d Requests Completed\n", len(responses))
+
+	jsondata, err := json.Marshal(responses)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Println(string(jsondata))
 }

@@ -34,11 +34,11 @@ func NewRateLimitedClient(requests int, perSeconds int, fasthttp *fasthttp.Clien
 }
 
 type Response struct {
-	StatusCode  int
-	Headers     map[string]string
-	Body        []byte
-	CurlCommand string
-	TimeElapsed time.Duration
+	StatusCode  int               `json:"status_code" yaml:"status_code"`
+	Headers     map[string]string `json:"headers" yaml:"headers"`
+	Body        []byte            `json:"body" yaml:"body"`
+	CurlCommand string            `json:"curl_command" yaml:"curl_command"`
+	TimeElapsed time.Duration     `json:"time_elapsed" yaml:"time_elapsed"`
 }
 
 func NewResponse(statusCode int, headers map[string]string, body []byte, curlCmd string, duration time.Duration) *Response {
@@ -52,11 +52,11 @@ func NewResponse(statusCode int, headers map[string]string, body []byte, curlCmd
 }
 
 type Request struct {
-	Uri         string
-	Method      string
-	QueryParams any
-	Headers     any
-	Body        any
+	Uri         string      `json:"uri" yaml:"uri"`
+	Method      string      `json:"method" yaml:"method"`
+	QueryParams interface{} `json:"query_params" yaml:"query_params"`
+	Headers     interface{} `json:"headers" yaml:"headers"`
+	Body        interface{} `json:"body" yaml:"body"`
 }
 
 func NewRequest(uri string, method string, queryParams any, headers any, body any) *Request {
@@ -70,8 +70,8 @@ func NewRequest(uri string, method string, queryParams any, headers any, body an
 }
 
 type ConcurrentResponse struct {
-	Response *Response
-	Error    error
+	Response *Response `json:"response" yaml:"response"`
+	Error    error     `json:"error" yaml:"error"`
 }
 
 func NewConcurrentResponse(response *Response, err error) *ConcurrentResponse {
