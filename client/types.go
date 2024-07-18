@@ -71,14 +71,12 @@ func NewRequest(uri string, method string, queryParams any, headers any, body an
 
 type ConcurrentResponse struct {
 	Response *Response `json:"response" yaml:"response"`
-	Request  *Request  `json:"request" yaml:"request"`
 	Error    error     `json:"error" yaml:"error"`
 }
 
-func NewConcurrentResponse(response *Response, request *Request, err error) *ConcurrentResponse {
+func NewConcurrentResponse(response *Response, err error) *ConcurrentResponse {
 	return &ConcurrentResponse{
 		Response: response,
-		Request:  request,
 		Error:    err,
 	}
 }
