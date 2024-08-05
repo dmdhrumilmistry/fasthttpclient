@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
 	github.com/li-jin-gou/http2curl v0.1.2
-	github.com/schollz/progressbar/v3 v3.14.4
+	github.com/schollz/progressbar/v3 v3.14.6
 	github.com/valyala/fasthttp v1.55.0
 	golang.org/x/term v0.22.0
 	golang.org/x/time v0.5.0
