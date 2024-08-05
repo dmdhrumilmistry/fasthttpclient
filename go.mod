@@ -8,7 +8,7 @@ require (
 	github.com/schollz/progressbar/v3 v3.14.6
 	github.com/valyala/fasthttp v1.55.0
 	golang.org/x/term v0.22.0
-	golang.org/x/time v0.5.0
+	golang.org/x/time v0.6.0
 )
 
 require (
