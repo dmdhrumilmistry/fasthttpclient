@@ -8,7 +8,7 @@ require (
 	github.com/li-jin-gou/http2curl v0.1.2
 	github.com/schollz/progressbar/v3 v3.18.0
 	github.com/valyala/fasthttp v1.59.0
-	golang.org/x/term v0.30.0
+	golang.org/x/term v0.31.0
 	golang.org/x/time v0.11.0
 )
 
@@ -23,5 +23,5 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
+	golang.org/x/sys v0.32.0 // indirect
 )
