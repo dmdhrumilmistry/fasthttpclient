@@ -3,7 +3,6 @@ package client
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"net/url"
 
 	"github.com/valyala/fasthttp"
