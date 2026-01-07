@@ -7,10 +7,21 @@ FastHttpClient is a lightweight and high-performance HTTP client for sending req
 ## Features
 
 - Simple and intuitive API
-- Fast and efficient
+- Fast and efficient with optimized memory usage
 - Supports various HTTP methods (GET, POST, PUT, DELETE, etc.)
 - Use as Package
 - Client with Rate Limiting option
+- Comprehensive benchmark and unit tests
+
+## Performance
+
+FastHttpClient has been optimized for both performance and memory efficiency:
+- Reduced memory allocations in URI generation and header processing
+- Pre-allocated buffers to minimize reallocations
+- Proper memory management with fasthttp object pools
+- Comprehensive benchmarks included
+
+For detailed information about performance optimizations, see [OPTIMIZATIONS.md](./OPTIMIZATIONS.md).
 
 ## Usage
 

@@ -55,8 +55,9 @@ func (c *FHClient) Do(uri string, method string, queryParams any, headers any, r
 	// release resources after use
 	fasthttp.ReleaseRequest(req)
 
-	// release response after using it
-	body := resp.Body()
+	// copy response data before releasing response
+	// resp.Body() returns a reference that becomes invalid after ReleaseResponse
+	body := append([]byte(nil), resp.Body()...)
 	respHeaders := GetResponseHeaders(resp)
 	statusCode := resp.StatusCode()
 

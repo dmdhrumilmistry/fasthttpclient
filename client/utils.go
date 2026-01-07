@@ -3,7 +3,6 @@ package client
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"net/url"
 
 	"github.com/valyala/fasthttp"
@@ -16,7 +15,13 @@ func SetHeaders(req *fasthttp.Request, headers map[string]string) {
 }
 
 func GetResponseHeaders(resp *fasthttp.Response) map[string]string {
-	headers := make(map[string]string)
+	// Count headers first to pre-allocate map
+	headerCount := 0
+	resp.Header.VisitAll(func(key, value []byte) {
+		headerCount++
+	})
+	
+	headers := make(map[string]string, headerCount)
 	resp.Header.VisitAll(func(key, value []byte) {
 		headers[string(key)] = string(value)
 	})
@@ -24,12 +29,28 @@ func GetResponseHeaders(resp *fasthttp.Response) map[string]string {
 }
 
 func GenerateURI(uri string, queryParams map[string]string) string {
-	var urlBuffer bytes.Buffer
-	urlBuffer.WriteString(uri + "?")
-	for key, value := range queryParams {
-		fmt.Fprintf(&urlBuffer, "%s=%s&", url.QueryEscape(key), url.QueryEscape(value))
+	if len(queryParams) == 0 {
+		return uri
 	}
-	return urlBuffer.String()[:len(urlBuffer.String())-1] // Remove trailing "&"
+	
+	var urlBuffer bytes.Buffer
+	// Pre-allocate buffer: base URI length + estimated 100 bytes for query params
+	// This reduces reallocations for typical use cases with a few query parameters
+	urlBuffer.Grow(len(uri) + 100)
+	urlBuffer.WriteString(uri)
+	urlBuffer.WriteByte('?')
+	
+	first := true
+	for key, value := range queryParams {
+		if !first {
+			urlBuffer.WriteByte('&')
+		}
+		first = false
+		urlBuffer.WriteString(url.QueryEscape(key))
+		urlBuffer.WriteByte('=')
+		urlBuffer.WriteString(url.QueryEscape(value))
+	}
+	return urlBuffer.String()
 }
 
 // SetQueryParamsInURI sets query parameters in the URI

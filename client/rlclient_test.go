@@ -22,13 +22,13 @@ func TestRLCPost(t *testing.T) {
 }
 
 func TestRLCPut(t *testing.T) {
-	Put(fhclient, t)
+	Put(rlclient, t)
 }
 
 func TestRLCPatch(t *testing.T) {
-	Patch(fhclient, t)
+	Patch(rlclient, t)
 }
 
 func TestRLCDelete(t *testing.T) {
-	Delete(fhclient, t)
+	Delete(rlclient, t)
 }
