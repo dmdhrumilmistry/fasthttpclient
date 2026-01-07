@@ -53,7 +53,8 @@ func MakeConcurrentRequests(requests []*Request, client ClientInterface) []*Conc
 		close(responsesCh)
 	}()
 
-	var responses []*ConcurrentResponse
+	// Pre-allocate slice with exact capacity to avoid growths
+	responses := make([]*ConcurrentResponse, 0, len(requests))
 	for resp := range responsesCh {
 		responses = append(responses, resp)
 	}
