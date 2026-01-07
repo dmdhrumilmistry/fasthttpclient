@@ -43,8 +43,8 @@ body := append([]byte(nil), resp.Body()...)
 
 **Performance Impact:**
 ```
-BenchmarkGenerateURI-4            3,808,270 ops/sec    208 B/op    2 allocs/op
-BenchmarkGenerateURIEmpty-4     481,520,185 ops/sec      0 B/op    0 allocs/op
+BenchmarkGenerateURI-4                    	 3878277	       306.7 ns/op	     208 B/op	       2 allocs/op
+BenchmarkGenerateURIEmpty-4               	481073157	         2.489 ns/op	       0 B/op	       0 allocs/op
 ```
 
 ### 3. Optimized Response Header Extraction
@@ -73,7 +73,7 @@ headers := make(map[string]string, headerCount)
 
 **Performance Impact:**
 ```
-BenchmarkGetResponseHeaders-4     3,506,240 ops/sec    432 B/op   10 allocs/op
+BenchmarkGetResponseHeaders-4             	 3601360	       336.0 ns/op	     432 B/op	      10 allocs/op
 ```
 
 ### 4. Pre-allocated Slice in Concurrent Requests

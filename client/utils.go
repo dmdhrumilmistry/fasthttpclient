@@ -34,7 +34,9 @@ func GenerateURI(uri string, queryParams map[string]string) string {
 	}
 	
 	var urlBuffer bytes.Buffer
-	urlBuffer.Grow(len(uri) + 100) // Pre-allocate to reduce reallocations
+	// Pre-allocate buffer: base URI length + estimated 100 bytes for query params
+	// This reduces reallocations for typical use cases with a few query parameters
+	urlBuffer.Grow(len(uri) + 100)
 	urlBuffer.WriteString(uri)
 	urlBuffer.WriteByte('?')
 	
