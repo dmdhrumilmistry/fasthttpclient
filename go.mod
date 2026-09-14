@@ -1,6 +1,6 @@
 module github.com/dmdhrumilmistry/fasthttpclient
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
@@ -8,7 +8,7 @@ require (
 	github.com/schollz/progressbar/v3 v3.19.0
 	github.com/valyala/fasthttp v1.69.0
 	golang.org/x/term v0.43.0
-	golang.org/x/time v0.15.0
+	golang.org/x/time v0.16.0
 )
 
 require (
